@@ -71,5 +71,13 @@ class dbConn
          return $records;
       }
 }
+    class accounts extends collection
+    {
+        protected static $modelName='accounts';
+    }
+    class todos extends collection
+    {
+        protected static $modelName='todos';
+    }
 
 ?>
