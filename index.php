@@ -80,4 +80,53 @@ class dbConn
         protected static $modelName='todos';
     }
 
+    class model
+{
+          static $column;
+          static $value;
+       
+          public function save()
+           {
+             if (static::$id == '')
+              {
+               $db=dbConn::getConnection();
+               $arr = get_object_vars($this);
+               static::$column = implode(', ', $arr);
+               static::$value = implode(', ',array_fill(0,count($arr),'?'));
+               $sql = $this->insert();
+               $stmt=$db->prepare($sql);
+               $stmt->execute(static::$data);
+              }
+             else
+              {
+               $db=dbConn::getConnection();
+               $arr = get_object_vars($this);
+               $sql = $this->update();
+               $stmt=$db->prepare($sql);
+               $stmt->execute();
+              }
+           }
+           private function insert()
+            {
+                $sql = "Insert Into ".static::$table." (". static::$column . ") Values(". static::$value . ") ";
+                return $sql;
+            }
+           private function update()
+            {
+                $sql = "Update ".static::$table. " SET ".static::$columnToUpdate."='".static::$newInfo."' WHERE id=".static::$id;
+                return $sql;
+             }
+                    
+                   
+            public function delete()
+             {
+                $db=dbConn::getConnection();
+                $sql = 'Delete From '.static::$table.' WHERE id='.static::$id;
+                $stmt=$db->prepare($sql);
+                $stmt->execute();
+                echo'Deleted record which has ID :'.static::$id;
+             }
+}
+
+
 ?>
