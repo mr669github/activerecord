@@ -128,5 +128,54 @@ class dbConn
              }
 }
 
+class account extends model
+{
+              public $email = 'email';
+              public $fname = 'fname';
+              public $lname = 'lname';
+              public $phone =  'phone';
+              public $birthday = 'birthday';
+              public $gender= 'gender';
+              public $password = 'password';
+              static $tableName = 'accounts';
+              static $id = '6';
+              static $data = array('mr669@njit.edu','Nisha','Ram','272','1993-09-05','Female','mona');
+              static $updateColumn = 'fname';
+              static $updateTo ='Jenny';
+}
+class todo extends model
+{
+               public $owneremail = 'owneremail';
+               public $ownerid = 'ownerid';
+               public $createddate = 'createddate';
+               public $duedate = 'duedate';
+               public $message = 'message';
+               public $isdone = 'isdone';
+               static $tableName = 'todos';
+               static $id = '6';
+               static $data = array('web@njit.edu','1','2017-01-01','2017-12-12','Done','1');
+               static $updateColumn = 'message';
+               static $updateTo ='Hi I am updated!';
+}
+class table
+{
+        static  function createTable($result)
+        {
+            echo '<table>';
+            echo "<table cellpadding='10px' border='2px' style='border-collapse:collapse' text-align :'center' width ='100%'white-space : nowrap'font-''weight:bold'>";
+            foreach($result as $column)
+            {
 
+                echo '<tr>';
+                foreach($column as $row)
+                   {
+                     echo '<td>';
+                     echo $row;
+                     echo '</td>';
+                    }
+                echo '</tr>';
+            }
+            echo '</table>';
+        }
+}
 ?>
