@@ -36,4 +36,40 @@ class dbConn
         return self::$db;
     }
 }
+ class collection
+{
+    static public function create()
+      {
+        $model = new static::$modelName;
+        return $model;
+      }
+       
+    public  function findAll()
+      {
+         $db = dbConn::getConnection();
+         $table = get_called_class();
+         $sql = 'SELECT * FROM ' . $table;
+         $stmt = $db->prepare($sql);
+         $stmt->execute();
+            
+         $class = static::$modelName;
+         $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+        
+         $records =  $stmt->fetchAll();
+         return $records;
+      }
+    public  function findOne($id)
+      {
+         $db = dbConn::getConnection();
+         $table = get_called_class();
+         $sql = 'SELECT * FROM ' . $table . ' WHERE id =' . $id;
+         $stmt = $db->prepare($sql);
+         $stmt->execute();
+         $class = static::$modelName;
+         $stmt->setFetchMode(PDO::FETCH_CLASS,$class);
+         $recordsSet  =  $stmt->fetchAll();
+         return $records;
+      }
+}
+
 ?>
