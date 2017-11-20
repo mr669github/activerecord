@@ -127,7 +127,7 @@ class dbConn
                 echo'Deleted record which has ID :'.static::$id;
              }
 }
-
+//account and todo extends code
 class account extends model
 {
               public $email = 'email';
@@ -157,6 +157,7 @@ class todo extends model
                static $updateColumn = 'message';
                static $updateTo ='Hi I am updated!'; 
 }
+//class for table creation
 class table
 {
         static  function makeTable($result)
@@ -178,7 +179,7 @@ class table
             echo '</table>';
         }
 }
-        echo '<h1 style="text-align:center;">All Records From Accounts Table</h1>';
+         echo '<h1 style="text-align:center;">All Records From Accounts Table</h1>';
          $records = accounts::create();
          $result = $records->findAll();
          table::makeTable($result);
