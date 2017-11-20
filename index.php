@@ -11,7 +11,7 @@ class dbConn
     //Holds a connection object
     protected static $db;
     //private construct
-    public function __construct()
+    private function __construct()
     {
         try {
             // assigning a PDO object to db variable
@@ -67,7 +67,7 @@ class dbConn
          $stmt->execute();
          $class = static::$modelName;
          $stmt->setFetchMode(PDO::FETCH_CLASS,$class);
-         $recordsSet  =  $stmt->fetchAll();
+         $records  =  $stmt->fetchAll();
          return $records;
       }
 }
@@ -113,7 +113,7 @@ class dbConn
             }
            private function update()
             {
-                $sql = "Update ".static::$table. " SET ".static::$columnToUpdate."='".static::$newInfo."' WHERE id=".static::$id;
+                $sql = "Update ".static::$table. " SET ".static::$updateColumn."='".static::$updateTo."' WHERE id=".static::$id;
                 return $sql;
              }
                     
@@ -137,7 +137,7 @@ class account extends model
               public $birthday = 'birthday';
               public $gender= 'gender';
               public $password = 'password';
-              static $tableName = 'accounts';
+              static $table = 'accounts';
               static $id = '6';
               static $data = array('mr669@njit.edu','Nisha','Ram','272','1993-09-05','Female','mona');
               static $updateColumn = 'fname';
@@ -151,15 +151,15 @@ class todo extends model
                public $duedate = 'duedate';
                public $message = 'message';
                public $isdone = 'isdone';
-               static $tableName = 'todos';
+               static $table = 'todos';
                static $id = '6';
                static $data = array('web@njit.edu','1','2017-01-01','2017-12-12','Done','1');
                static $updateColumn = 'message';
-               static $updateTo ='Hi I am updated!';
+               static $updateTo ='Hi I am updated!'; 
 }
 class table
 {
-        static  function createTable($result)
+        static  function makeTable($result)
         {
             echo '<table>';
             echo "<table cellpadding='10px' border='2px' style='border-collapse:collapse' text-align :'center' width ='100%'white-space : nowrap'font-''weight:bold'>";
@@ -178,4 +178,49 @@ class table
             echo '</table>';
         }
 }
+        echo '<h1 style="text-align:center;">All Records From Accounts Table</h1>';
+         $records = accounts::create();
+         $result = $records->findAll();
+         table::makeTable($result);
+         echo '<br>';
+         echo '<br>';
+         echo '<h1 style="text-align:center;">Select ID from Accounts Table, ID is : 2 </h1>';
+         $result= $records->findOne(2);
+         table::makeTable($result);
+         echo '<br>';
+         echo '<br>';
+         echo '<br>';
+         echo '<h1 style="text-align:center;">All Records From Todos Table </h1>';
+         $records = todos::create();
+         $result= $records->findAll();
+         table::makeTable($result);
+         echo '<br>';
+         echo '<br>';
+         echo '<h1 style="text-align:center;">Select ID  from Todos Table, ID is : 5 </h1>';
+         $result= $records->findOne(5);
+         table::makeTable($result);
+         echo '<h1 style="text-align:center;">Update Fname Column in Accounts Table where ID is : 6 </h1>';
+         $obj = new account;
+         $obj->save();
+         $records = accounts::create();
+         $result = $records->findAll();
+         table::makeTable($result);
+         echo '<br>';
+         echo '<br>';
+         echo '<h1 style="text-align:center;">Insert New Row in Todos </h1>';
+         $obj = new todo;
+         $obj->save();
+         $records = todos::create();
+         $result= $records->findAll();
+         table::makeTable($result);
+         echo '<br>';
+         echo '<br>';
+         echo '<h1 style="text-align:center;">Delete ID 6 from Todos Table </h1>';
+         $obj = new todo;
+         $obj->delete();
+         $records = todos::create();
+         $result= $records->findAll();
+         table::makeTable($result);
+
+        
 ?>
